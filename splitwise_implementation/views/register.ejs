@@ -115,10 +115,10 @@
 					<div class="loginmodal-container">
 						<h1>Login to Your Account</h1><br>
 
-						<input type="text" name="email id" placeholder="Email id">
-						<input type="text" name="user" placeholder="Username">
-						<input type="password" name="pass" placeholder="Password">
-						<input type="submit" name="register" class="login loginmodal-submit" value="Register">
+						<input id="email_id" type="text" name="email_id" placeholder="Email id">
+						<input id="user" type="text" name="user" placeholder="Username">
+						<input id="pass" type="password" name="pass" placeholder="Password">
+						<input id="submit_btn" type="submit" name="register" class="login loginmodal-submit" value="Register">
 
 
 					  <div class="login-help">
@@ -127,6 +127,34 @@
 					</div>
 
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+<script>
+	$(document).ready(function(){
+
+		$("#submit_btn").click(function(){
+			var em = $("#email_id").val();
+			var us = $("#user").val();
+			var pa = $("#pass").val();
+			var obj = {
+				"email_id":em,
+				"user":us,
+				"pass":pa
+			}
+
+			$.ajax({
+        type: "POST",
+        data: obj,
+        url: "/register_db",
+        success: function(data)
+        {
+            //
+        }
+    });
+		return false;
+		});
+
+	});
+</script>
 </body>
 </html>
