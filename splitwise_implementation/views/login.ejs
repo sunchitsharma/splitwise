@@ -115,14 +115,14 @@
 					<div class="loginmodal-container">
 						<h1>Login to Your Account</h1><br>
 
-						<input type="text" name="user" placeholder="Username">
-						<input type="password" name="pass" placeholder="Password">
-						<input type="submit" name="login" class="login loginmodal-submit" value="Login">
+						<input id="user" type="text" name="user" placeholder="Username">
+						<input id="pass" type="password" name="pass" placeholder="Password">
+						<input id="login_btn" type="submit" name="login" class="login loginmodal-submit" value="Login">
 
 
 					  <div class="login-help">
 
-						 <button id="login_register_btn" type="button">Click Me!</button>
+						 <button id="login_register_btn" type="button">Register me!</button>
 					  </div>
 					</div>
 
@@ -139,8 +139,6 @@
 
 							$("#login_register_btn").click(function(){
 
-								alert("1");
-
 								$.ajax({
 									type : 'GET',
 									url: '/register',
@@ -153,8 +151,37 @@
 
 							});
 
+
+						$("#login_btn").click(function(){
+							localStorage.setItem("user", $("#user").val());
+	//					alert("asf");
+							var em=$("#user").val();
+							var pa=$("#pass").val();
+							var obj={username:em,password:pa};
+
+							$.ajax({
+								type: 'POST',
+								url: '/check_for_user',
+								data: obj,
+								success: function(data){
+									console.log("callback");
+
+									if(data.length>=1)
+									{
+										window.location.pathname="/dashboard"
+										console.log(data);
+									}
+									else
+									{
+										alert("Invalid credentials!!");
+									}
+								}
+							});
+
+							return false;
 						});
 
+										});
 
 					</script>
 

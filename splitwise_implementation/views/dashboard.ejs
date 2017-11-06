@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+
+  <div class="container">
+    <div class="jumbotron">
+      <h1>Dashboard</h1>
+      <p>The best place to keep track of your money.</p>
+    </div>
+  						<input id="money" type="text" name="money" placeholder="Amount To Split"><br><br>
+  						<input id="user1" type="text" name="user1" placeholder="User1">
+              <input id="user2" type="text" name="user2" placeholder="User2">
+              <input id="user3" type="text" name="user3" placeholder="User3"><br><br>
+  						<input id="split_btn" type="submit" name="register" class="login loginmodal-submit" value="Split">
+<br><br><br>
+
+
+
+  <div class="col-md-6">
+    <input id="btn_get" type="button" name="btn_get" class="button" value="GET">
+    <br>
+            <table id ="table_get">
+              <tr><th>Amount to Get</th><th>From</th></tr>
+            </table>
+  </div>
+  <div class="col-md-6">
+    <input id="btn_give" type="button" name="btn_give" class="button" value="GIVE">
+    <br>
+            <table id="table_give">
+              <tr><th>Amount to Give</th><th>To</th></tr>
+            </table>
+  </div>
+          </div>
+
+
+      <script>
+          	$(document).ready(function(){
+              var owner= localStorage.getItem('user');
+
+
+              alert(owner);
+//ACTUAL SPLITTING ###########
+          		$("#split_btn").click(function(){
+
+
+                var array_user =[];
+                array_user.push($('#user1').val());
+                array_user.push($('#user2').val());
+                array_user.push($('#user3').val());
+                var spval = $('#money').val()/4;
+
+                var i=0;
+                while(i<3)
+                {
+
+                    	var em = owner;
+                			var us = array_user[i];
+                			var pa = spval;
+                			var obj = {
+                				"usr1":em,
+                				"usr2":us,
+                				"mny":pa
+                			}
+
+                			$.ajax({
+                        type: "POST",
+                        data: obj,
+                        url: "/money_db",
+                        success: function(data)
+                        {
+                          console.log("sucess");
+                        }
+                    });
+
+                  i++;
+                }
+          		return false;
+          		});
+              $("#btn_get").click(function(){
+
+                var objj = {
+                  user1:owner
+                }
+                $.ajax({
+                  type: "POST",
+                  data: objj,
+                  url: "/fetch_get",
+                  success: function(data)
+                  {
+                    console.log(data);
+                    var rowCount = table_get.rows.length;
+                    for (var i = rowCount - 1; i > 0; i--) {
+                        table_get.deleteRow(i);
+                    }
+                    for(var i = 0 ;i<data.length;i++){
+                       var udhar = data[i].user2;
+                       var money1 = data[i].money;
+
+                     //  var temp = "<tr><td>"+title+"</td><td>"+ingredients+"</td>"+"<td><img src=+"image+"></img></td>"+"</tr>"
+                     tData="<tr><td>"+udhar+"</td><td>"+money1+"</td></tr>"
+                       //var tData = "<tr><td>"+title+"</td><td>"+ingredients+"</td></tr>"
+                       $("#table_get").append(tData);
+                       }
+
+
+
+                  }
+              });
+
+              });
+
+
+              $("#btn_give").click(function(){
+
+                var objj = {
+                  user2:owner
+                }
+                $.ajax({
+                  type: "POST",
+                  data: objj,
+                  url: "/fetch_give",
+                  success: function(data)
+                  {
+                    console.log(data);
+                    var rowCount = table_give.rows.length;
+                    for (var i = rowCount - 1; i > 0; i--) {
+                        table_give.deleteRow(i);
+                    }
+                    for(var i = 0 ;i<data.length;i++){
+                       var tg = data[i].user1;
+                       var money2 = data[i].money;
+
+                     //  var temp = "<tr><td>"+title+"</td><td>"+ingredients+"</td>"+"<td><img src=+"image+"></img></td>"+"</tr>"
+                     tData="<tr><td>"+tg+"</td><td>"+money2+"</td></tr>"
+                       //var tData = "<tr><td>"+title+"</td><td>"+ingredients+"</td></tr>"
+                       $("#table_give").append(tData);
+                       }
+
+
+
+                  }
+              });
+
+              });
+
+          	});
+            //POPULATING TABLES table_get and table_give #############
+
+          </script>
+
+
+</body>
+</html>

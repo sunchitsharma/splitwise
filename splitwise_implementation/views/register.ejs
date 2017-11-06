@@ -113,7 +113,7 @@
 
 
 					<div class="loginmodal-container">
-						<h1>Login to Your Account</h1><br>
+						<h1>Register for Splitwise</h1><br>
 
 						<input id="email_id" type="text" name="email_id" placeholder="Email id">
 						<input id="user" type="text" name="user" placeholder="Username">
@@ -133,6 +133,8 @@
 	$(document).ready(function(){
 
 		$("#submit_btn").click(function(){
+
+
 			var em = $("#email_id").val();
 			var us = $("#user").val();
 			var pa = $("#pass").val();
@@ -148,9 +150,23 @@
         url: "/register_db",
         success: function(data)
         {
-            //
+          //
         }
     });
+
+
+
+
+
+		$.ajax({
+			type: "GET",
+			success: function()
+			{
+				window.location.pathname="/login"
+			}
+	});
+
+
 		return false;
 		});
 
