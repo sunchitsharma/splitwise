@@ -17,37 +17,54 @@
 
 
   <div class="container">
-    <div class="jumbotron">
-      <h1>Dashboard</h1>
-      <p>The best place to keep track of your money.</p>
-    </div>
-  						<input id="money" type="text" name="money" placeholder="Amount To Split"><br><br>
-  						<input id="user1" type="text" name="user1" placeholder="User1">
-              <input id="user2" type="text" name="user2" placeholder="User2">
-              <input id="user3" type="text" name="user3" placeholder="User3"><br><br>
-  						<input id="split_btn" type="submit" name="register" class="login loginmodal-submit" value="Split">
+
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Splitwise</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="/login">Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+
+
+    <div align="left">
+  						<input class="form-control input-sm" id="money" type="text" name="money" placeholder="Amount To Split"><br><br>
+  						<input class="form-control input-sm" id="user1" type="text" name="user1" placeholder="User1">
+              <input class="form-control input-sm" id="user2" type="text" name="user2" placeholder="User2">
+              <input class="form-control input-sm" id="user3" type="text" name="user3" placeholder="User3"><br><br>
+  						<input id="split_btn" type="submit" name="register" class="btn btn-success" value="Split">
+              </div>
+
 <br><br><br>
 
 
+  <div class="col-md-5">
+    <input id="btn_get" type="button" name="btn_get" class="btn btn-success" value="Refresh &#8634">
+    <br><br>
+            <table  class="table table-condensed"id ="table_get">
+              <thead>
+                <tr><th>Amount to Get</th><th>From</th><th>Settle</th></tr>
+              </thead>
+              <tbody>
 
-  <div class="col-md-6">
-    <input id="btn_get" type="button" name="btn_get" class="button" value="GET">
-    <br>
-            <table id ="table_get">
-              <tr><th>Amount to Get</th><th>From</th></tr>
+              </tbody>
             </table>
   </div>
-  <div class="col-md-6">
-    <input id="btn_give" type="button" name="btn_give" class="button" value="GIVE">
-    <br>
-            <table id="table_give">
+  <div class="col-md-5">
+    <input id="btn_give" type="button" name="btn_give" class="btn btn-success" value="Refresh &#8634">
+    <br><br>
+            <table class = "table table-condensed" id="table_give">
               <tr><th>Amount to Give</th><th>To</th></tr>
             </table>
   </div>
           </div>
 
 
-      <script>
+      <script type="text/javascript">
           	$(document).ready(function(){
               var owner= localStorage.getItem('user');
 
@@ -90,7 +107,7 @@
                 }
           		return false;
           		});
-              $("#btn_get").click(function(){
+              $("#btn_get").click(function recurme(){
 
                 var objj = {
                   user1:owner
@@ -110,18 +127,46 @@
                        var udhar = data[i].user2;
                        var money1 = data[i].money;
 
-                     //  var temp = "<tr><td>"+title+"</td><td>"+ingredients+"</td>"+"<td><img src=+"image+"></img></td>"+"</tr>"
-                     tData="<tr><td>"+udhar+"</td><td>"+money1+"</td></tr>"
-                       //var tData = "<tr><td>"+title+"</td><td>"+ingredients+"</td></tr>"
+                       tData="<tr><td>"+udhar+"</td><td>"+money1+"</td><td><button id = \"btn_"+i+"\" type=\"button\" class=\"btn btn-primary btn-xs\">Settle</button></td></tr>";
+
                        $("#table_get").append(tData);
                        }
 
+                       $('#table_get').find('tr').click( function(){
+                       //alert('You clicked row '+ ($(this).index()+1) );
+                       var i= $(this).index()
+                       var ur1=data[i].user1;
+                       var ur2=data[i].user2;
+                       var mn=data[i].money;
 
+                       var obj = {
+                 				"usr1":ur1,
+                 				"usr2":ur2,
+                 				"mny":mn
+                 			}
+
+                      $.ajax({
+                        type: "POST",
+                        data: obj,
+                        url: "/settled",
+                        success: function(data)
+                        {
+                          /////////////////////////////////////////
+
+
+
+                        ////////////////////////////////////////
+                        }
+                      });
+
+
+                     });
 
                   }
               });
 
               });
+
 
 
               $("#btn_give").click(function(){

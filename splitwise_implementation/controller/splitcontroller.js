@@ -126,6 +126,16 @@ app.post('/fetch_give',urlencodedParser,function(req,res){
   });
 });
 
+//settlement//////////////////////////////////////
+app.post('/settled',urlencodedParser,function(req,res){
+  console.log("Settled Account");
+
+    Transaction.remove({user1:req.body.usr1, user2:req.body.usr2, money:req.body.mny}).then(function(result){
+    res.json(result);
+    console.log("Removed Successfully");
+    console.log(result);
+  });
+});
 
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
