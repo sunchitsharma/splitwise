@@ -29,18 +29,30 @@
         </ul>
       </div>
     </nav>
+<!-- /////////////////////////////////////////////////////// DYNAMIC TEXT FIELDS -->
 
 
+<script src="/wp-includes/js/addInput.js" language="Javascript" type="text/javascript"></script>
+<form method="POST">
+     <div id="dynamicInput">
+        <br><input class="form-control input-sm" placeholder="Friend's Name" id="user1" name="myInputs[]">
+     </div>
+     <br>
+     <input class="btn btn-danger" value="Add Friend" onClick="addInput('dynamicInput');">
+</form>
+
+
+<!--////////////////////////////////////////////////////////  -->
+<br>
     <div align="left">
   						<input class="form-control input-sm" id="money" type="text" name="money" placeholder="Amount To Split"><br><br>
-  						<input class="form-control input-sm" id="user1" type="text" name="user1" placeholder="User1">
+  						<!-- <input class="form-control input-sm" id="user1" type="text" name="user1" placeholder="User1">
               <input class="form-control input-sm" id="user2" type="text" name="user2" placeholder="User2">
-              <input class="form-control input-sm" id="user3" type="text" name="user3" placeholder="User3"><br><br>
+              <input class="form-control input-sm" id="user3" type="text" name="user3" placeholder="User3"><br><br> -->
   						<input id="split_btn" type="submit" name="register" class="btn btn-success" value="Split">
               </div>
 
 <br><br><br>
-
 
   <div class="col-md-5">
     <input id="btn_get" type="button" name="btn_get" class="btn btn-success" value="Refresh &#8634">
@@ -63,25 +75,60 @@
   </div>
           </div>
 
-
       <script type="text/javascript">
+
+
+
+
+
+
+var counter = 2;
+var limit = 10;
+function addInput(divName){
+     if (counter == limit)  {
+          alert("You have reached the limit of adding " + counter + " inputs");
+     }
+     else {
+          var newdiv = document.createElement('div');
+          newdiv.innerHTML = "<br><input class='form-control input-sm' placeholder='Friends Name' id = 'user"+counter+"' name='myInputs[]'>";
+          document.getElementById(divName).appendChild(newdiv);
+          counter++;
+     }
+}
+
+
+
+
+
+
+
+
+
+
+
           	$(document).ready(function(){
               var owner= localStorage.getItem('user');
 
 
               alert(owner);
-//ACTUAL SPLITTING ###########
+
+
           		$("#split_btn").click(function(){
 
 
                 var array_user =[];
-                array_user.push($('#user1').val());
-                array_user.push($('#user2').val());
-                array_user.push($('#user3').val());
-                var spval = $('#money').val()/4;
+                i=0;
+                while(i<counter-1)
+                {
+                  i++;
+                  array_user.push($('#user'+i).val());
+                  alert($('#user'+i).val());
+                }
+
+                var spval = $('#money').val()/(counter-1);
 
                 var i=0;
-                while(i<3)
+                while(i<counter-1)
                 {
 
                     	var em = owner;
@@ -203,7 +250,7 @@
               });
 
           	});
-            //POPULATING TABLES table_get and table_give #############
+
 
           </script>
 
