@@ -134,7 +134,7 @@ app.post('/fetch_give',urlencodedParser,function(req,res){
 app.post('/settled',urlencodedParser,function(req,res){
   console.log("Settled Account");
 
-    Transaction.remove({user1:req.body.usr1, user2:req.body.usr2, money:req.body.mny}).then(function(result){
+    Transaction.remove({user1:req.body.usr1, user2:req.body.usr2, money:req.body.mny, date:req.body.date1, time:req.body.time1}).then(function(result){
     res.json(result);
     console.log("Removed Successfully");
     console.log(result);

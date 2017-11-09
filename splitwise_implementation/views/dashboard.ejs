@@ -215,12 +215,15 @@ function addInput(divName){
                        var ur1=data[i].user1;
                        var ur2=data[i].user2;
                        var mn=data[i].money;
-                      
+                       var dt=data[i].date;
+                       var tm=data[i].time;
 
                        var obj = {
                  				"usr1":ur1,
                  				"usr2":ur2,
-                 				"mny":mn
+                 				"mny":mn,
+                        "date1":dt,
+                        "time1":tm
                  			}
 
                       $.ajax({
