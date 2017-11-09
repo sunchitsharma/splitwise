@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>SplitWise</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
   <!-- jQuery library -->
@@ -44,22 +44,38 @@
 
 <!--////////////////////////////////////////////////////////  -->
 <br>
-    <div align="left">
-  						<input class="form-control input-sm" id="money" type="text" name="money" placeholder="Amount To Split"><br><br>
+    <div class="col-md-3">
+      Amount To Split:
+  						<input class="form-control input-sm" id="money" type="text" name="money" placeholder="eg : 500"><br><br>
+              </div>
+              <!-- <input class="form-control input-sm" id="date" type="text" name="date" placeholder="Date of Split"><br><br>
+              <input class="form-control input-sm" id="time" type="text" name="time" placeholder="Time of Split"><br><br> -->
   						<!-- <input class="form-control input-sm" id="user1" type="text" name="user1" placeholder="User1">
               <input class="form-control input-sm" id="user2" type="text" name="user2" placeholder="User2">
               <input class="form-control input-sm" id="user3" type="text" name="user3" placeholder="User3"><br><br> -->
+<!-- DATE PICKER ////////////////////////////////////////////////////////////////!-->
+<div class="col-md-3">
+    Date:
+    <input class="form-control input-sm" id="date" type="date" name="bday" ><br><br>
+</div>
+<div class="col-md-3">
+    Time:
+  <input class="form-control input-sm" id="time" type="time" name="usr_time">
+</div>
+<!-- DATE PICKER END////////////////////////////////////////////////////////////////!-->
+<br>
   						<input id="split_btn" type="submit" name="register" class="btn btn-success" value="Split">
-              </div>
+
 
 <br><br><br>
+<hr>
 
   <div class="col-md-5">
     <input id="btn_get" type="button" name="btn_get" class="btn btn-success" value="Refresh &#8634">
     <br><br>
             <table  class="table table-condensed"id ="table_get">
               <thead>
-                <tr><th>Amount to Get</th><th>From</th><th>Settle</th></tr>
+                <tr><th>Date</th><th>Time</th><th>From</th><th>Amount to Get</th><th>Settle</th></tr>
               </thead>
               <tbody>
 
@@ -70,10 +86,23 @@
     <input id="btn_give" type="button" name="btn_give" class="btn btn-success" value="Refresh &#8634">
     <br><br>
             <table class = "table table-condensed" id="table_give">
-              <tr><th>Amount to Give</th><th>To</th></tr>
+              <tr><th>Date</th><th>Time</th><th>To</th><th>Amount to Give</th></tr>
             </table>
   </div>
           </div>
+
+<script>
+
+<!-- script for date picker ////////////////////////////////////////////////////////////////!-->
+
+
+<!-- script for date picker ////////////////////////////////////////////////////////////////!-->
+
+
+</script>
+
+
+
 
       <script type="text/javascript">
 
@@ -99,16 +128,8 @@ function addInput(divName){
 
 
 
-
-
-
-
-
-
-
           	$(document).ready(function(){
               var owner= localStorage.getItem('user');
-
 
               alert(owner);
 
@@ -126,6 +147,9 @@ function addInput(divName){
                 }
 
                 var spval = $('#money').val()/(counter-1);
+                var spval = spval.toFixed(2)
+                var dt = $('#date').val();
+                var tm = $('#time').val();
 
                 var i=0;
                 while(i<counter-1)
@@ -134,9 +158,13 @@ function addInput(divName){
                     	var em = owner;
                 			var us = array_user[i];
                 			var pa = spval;
+                      var om = dt;
+                      var bm = tm;
                 			var obj = {
                 				"usr1":em,
                 				"usr2":us,
+                        "dt":om,
+                        "tm":bm,
                 				"mny":pa
                 			}
 
@@ -173,8 +201,10 @@ function addInput(divName){
                     for(var i = 0 ;i<data.length;i++){
                        var udhar = data[i].user2;
                        var money1 = data[i].money;
+                       var dae = data[i].date;
+                       var tie = data[i].time;
 
-                       tData="<tr><td>"+udhar+"</td><td>"+money1+"</td><td><button id = \"btn_"+i+"\" type=\"button\" class=\"btn btn-primary btn-xs\">Settle</button></td></tr>";
+                       tData="<tr><td>"+dae+"</td><td>"+tie+"</td><td>"+udhar+"</td><td>"+money1+"</td><td><button id = \"btn_"+i+"\" type=\"button\" class=\"btn btn-primary btn-xs\">Settle</button></td></tr>";
 
                        $("#table_get").append(tData);
                        }
@@ -185,6 +215,7 @@ function addInput(divName){
                        var ur1=data[i].user1;
                        var ur2=data[i].user2;
                        var mn=data[i].money;
+                      
 
                        var obj = {
                  				"usr1":ur1,
@@ -198,11 +229,7 @@ function addInput(divName){
                         url: "/settled",
                         success: function(data)
                         {
-                          /////////////////////////////////////////
-
-
-
-                        ////////////////////////////////////////
+                          ////////////////////////////////
                         }
                       });
 
@@ -234,14 +261,15 @@ function addInput(divName){
                     }
                     for(var i = 0 ;i<data.length;i++){
                        var tg = data[i].user1;
+                       var da = data[i].date;
+                       var ta = data[i].time;
                        var money2 = data[i].money;
 
                      //  var temp = "<tr><td>"+title+"</td><td>"+ingredients+"</td>"+"<td><img src=+"image+"></img></td>"+"</tr>"
-                     tData="<tr><td>"+tg+"</td><td>"+money2+"</td></tr>"
+                     tData="<tr><td>"+da+"</td><td>"+ta+"</td><td>"+tg+"</td><td>"+money2+"</td></tr>"
                        //var tData = "<tr><td>"+title+"</td><td>"+ingredients+"</td></tr>"
                        $("#table_give").append(tData);
                        }
-
 
 
                   }

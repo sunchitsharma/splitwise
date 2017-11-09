@@ -32,7 +32,9 @@ const RegisterUserSchema = new Schema({
 const TransactionSchema = new Schema({
   user1:String,
   user2:String,
-  money:String
+  date:String,
+  time:String,
+  money:String,
 });
 
 const RegisterUser = mongoose.model('registerusercollection',RegisterUserSchema);
@@ -81,6 +83,8 @@ app.post('/money_db',urlencodedParser ,function(req,res){
    const user = new Transaction({
      user1:req.body.usr1,
      user2:req.body.usr2,
+     date:req.body.dt,
+     time:req.body.tm,
      money:req.body.mny
    });
 
