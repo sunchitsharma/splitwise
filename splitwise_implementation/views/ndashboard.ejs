@@ -32,17 +32,14 @@
 "></span></a></li>
           <!-- <li><input type="label" type="label" id="logged_in_user" name="logged_in_user" disabled></li> -->
         </ul>
+
       </div>
     </nav>
 <!-- /////////////////////////////////////////////////////// DYNAMIC TEXT FIELDS -->
 
-<form name="billimage" action="/ndashboard" method="post" enctype="multipart/form-data">
-<div class="col-md-3">
-  <input class="form-control input-sm" type="file" name="myfile" size="50" value="File chosen"/>
-</div>
-<div class="col-md-3">
-<input class="btn btn-primary btn-xs" type="submit" value="Upload Image"/>
-</div>
+<form name="billimage" action="/dashboard" method="post" enctype="multipart/form-data">
+<input class="btn btn-primary btn-xs" type="button" name="myfile" size="50" value="Image Uploaded" disabled/>
+<!-- <input type="submit" value="Upload Image"/> -->
 </form>
 <br><br>
 <script src="/wp-includes/js/addInput.js" language="Javascript" type="text/javascript"></script>
@@ -212,6 +209,7 @@ function addInput(divName){
                         success: function(data)
                         {
                           console.log("sucess");
+                          window.location.pathname="/dashboard"
                         }
                     });
 

@@ -92,10 +92,10 @@ app.post('/register_db',urlencodedParser ,function(req,res){
 });
 
 
-app.post('/dashboard',upload.single('myfile'),function(req,res){
+app.post('/ndashboard',upload.single('myfile'),function(req,res){
     console.log(req.file.path);
     myimage=req.file.path;
-    res.render('dashboard');
+    res.render('ndashboard');
 });
 
 
@@ -114,6 +114,7 @@ app.post('/money_db', urlencodedParser,function(req,res){
    user.save().then(function(){
      console.log("Inserted in the Transaction DB from split button");
    })
+   res.render('dashboard');
 });
 
 
