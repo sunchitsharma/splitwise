@@ -7,7 +7,21 @@
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({extended: false});
+var multer = require('multer');
+var myimage;
+//multer storage//////////////////////////////////////////////////////////////////
+var storage = multer.diskStorage({
+  destination: function(req,res,cb){
+    cb(null,'uploads/')
+  },
+  filename:function(req,file,cb){
+    cb(null,file.originalname);
+  }
+});
 
+var upload = multer({
+  storage:storage,
+});
 
 mongoose.connect('mongodb://localhost/mydb',{useMongoClient: true});
 
@@ -35,6 +49,7 @@ const TransactionSchema = new Schema({
   date:String,
   time:String,
   money:String,
+  path:String
 });
 
 const RegisterUser = mongoose.model('registerusercollection',RegisterUserSchema);
@@ -55,6 +70,7 @@ app.get('/register',function(req,res){
 
 app.get('/dashboard',function(req,res){
   res.render('dashboard');
+  myimage="uploads/no_image_available.jpg";
 });
 
 
@@ -75,8 +91,15 @@ app.post('/register_db',urlencodedParser ,function(req,res){
 
 });
 
-app.post('/money_db',urlencodedParser ,function(req,res){
 
+app.post('/dashboard',upload.single('myfile'),function(req,res){
+    console.log(req.file.path);
+    myimage=req.file.path;
+    res.render('dashboard');
+});
+
+
+app.post('/money_db', urlencodedParser,function(req,res){
 
     console.log(req.body);
 
@@ -85,13 +108,12 @@ app.post('/money_db',urlencodedParser ,function(req,res){
      user2:req.body.usr2,
      date:req.body.dt,
      time:req.body.tm,
-     money:req.body.mny
+     money:req.body.mny,
+     path:myimage
    });
-
    user.save().then(function(){
      console.log("Inserted in the Transaction DB from split button");
    })
-
 });
 
 
@@ -134,7 +156,7 @@ app.post('/fetch_give',urlencodedParser,function(req,res){
 app.post('/settled',urlencodedParser,function(req,res){
   console.log("Settled Account");
 
-    Transaction.remove({user1:req.body.usr1, user2:req.body.usr2, money:req.body.mny, date:req.body.date1, time:req.body.time1}).then(function(result){
+    Transaction.remove({user1:req.body.usr1, user2:req.body.usr2, money:req.body.mny, date:req.body.date1, time:req.body.time1, path:req.body.pola}).then(function(result){
     res.json(result);
     console.log("Removed Successfully");
     console.log(result);

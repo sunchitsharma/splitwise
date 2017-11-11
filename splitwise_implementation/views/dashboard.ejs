@@ -31,7 +31,10 @@
     </nav>
 <!-- /////////////////////////////////////////////////////// DYNAMIC TEXT FIELDS -->
 
-
+<form name="billimage" action="/dashboard" method="post" enctype="multipart/form-data">
+<input type="file" name="myfile" size="50" /><input type="submit" value="Upload Image"/>
+</form>
+<br><br>
 <script src="/wp-includes/js/addInput.js" language="Javascript" type="text/javascript"></script>
 <form method="POST">
      <div id="dynamicInput">
@@ -40,7 +43,8 @@
      <br>
      <input class="btn btn-danger" value="Add Friend" onClick="addInput('dynamicInput');">
 </form>
-
+<br>
+<br />
 
 <!--////////////////////////////////////////////////////////  -->
 <br>
@@ -54,6 +58,12 @@
               <input class="form-control input-sm" id="user2" type="text" name="user2" placeholder="User2">
               <input class="form-control input-sm" id="user3" type="text" name="user3" placeholder="User3"><br><br> -->
 <!-- DATE PICKER ////////////////////////////////////////////////////////////////!-->
+
+
+
+
+
+
 <div class="col-md-3">
     Date:
     <input class="form-control input-sm" id="date" type="date" name="bday" ><br><br>
@@ -65,6 +75,8 @@
 <!-- DATE PICKER END////////////////////////////////////////////////////////////////!-->
 <br>
   						<input id="split_btn" type="submit" name="register" class="btn btn-success" value="Split">
+<br><br>
+
 
 
 <br><br><br>
@@ -75,7 +87,7 @@
     <br><br>
             <table  class="table table-condensed"id ="table_get">
               <thead>
-                <tr><th>Date</th><th>Time</th><th>From</th><th>Amount to Get</th><th>Settle</th></tr>
+                <tr><th>Date</th><th>Time</th><th>From</th><th>Amount to Get</th><th>Bill Image</th><th>Settle</th></tr>
               </thead>
               <tbody>
 
@@ -86,14 +98,21 @@
     <input id="btn_give" type="button" name="btn_give" class="btn btn-success" value="Refresh &#8634">
     <br><br>
             <table class = "table table-condensed" id="table_give">
-              <tr><th>Date</th><th>Time</th><th>To</th><th>Amount to Give</th></tr>
+              <tr><th>Date</th><th>Time</th><th>To</th><th>Amount to Give</th><th>Bill Image</th></tr>
             </table>
   </div>
+
+
+
           </div>
+
+
+
 
 <script>
 
-<!-- script for date picker ////////////////////////////////////////////////////////////////!-->
+<!-- script for date picker
+
 
 
 <!-- script for date picker ////////////////////////////////////////////////////////////////!-->
@@ -107,8 +126,15 @@
       <script type="text/javascript">
 
 
+    window.onbeforeunload=function(){
+      localStorage.setItem(name,$('#user1').val());
+    }
 
-
+    window.onload=function(){
+      var name=localStorage.getItem(name);
+      if(name!="")
+          $('#user1').val(name);
+    }
 
 
 var counter = 2;
@@ -135,8 +161,6 @@ function addInput(divName){
 
 
           		$("#split_btn").click(function(){
-
-
                 var array_user =[];
                 i=0;
                 while(i<counter-1)
@@ -160,17 +184,20 @@ function addInput(divName){
                 			var pa = spval;
                       var om = dt;
                       var bm = tm;
+                      var pth = $('#bill').val();
                 			var obj = {
                 				"usr1":em,
                 				"usr2":us,
                         "dt":om,
                         "tm":bm,
-                				"mny":pa
+                				"mny":pa,
+                        "pa":pth
                 			}
 
                 			$.ajax({
                         type: "POST",
                         data: obj,
+                        enctype:"multipart/form-data",
                         url: "/money_db",
                         success: function(data)
                         {
@@ -203,27 +230,32 @@ function addInput(divName){
                        var money1 = data[i].money;
                        var dae = data[i].date;
                        var tie = data[i].time;
-
-                       tData="<tr><td>"+dae+"</td><td>"+tie+"</td><td>"+udhar+"</td><td>"+money1+"</td><td><button id = \"btn_"+i+"\" type=\"button\" class=\"btn btn-primary btn-xs\">Settle</button></td></tr>";
+                       var pathdedo = (data[i].path).substring(8,data[i].path.length);
+                      var pouity = "Image not available";
+                       tData="<tr><td>"+dae+"</td><td>"+tie+"</td><td>"+udhar+"</td><td>"+money1+"</td><td><a href="+pathdedo+"><img src="+pathdedo+" alt="+pouity+" height=40px width=50px></a></td><td><button id = \"btn_"+i+"\" type=\"button\" class=\"btn btn-primary btn-xs\">Settle</button></td></tr>";
 
                        $("#table_get").append(tData);
                        }
 
-                       $('#table_get').find('tr').click( function(){
+                       $('td').click( function(){
                        //alert('You clicked row '+ ($(this).index()+1) );
-                       var i= $(this).index()
+                       var i=$(this).closest("tr").index()
+                       var j=$(this).index()
+                       if(j==5){
                        var ur1=data[i].user1;
                        var ur2=data[i].user2;
                        var mn=data[i].money;
                        var dt=data[i].date;
                        var tm=data[i].time;
+                       var p=data[i].path;
 
                        var obj = {
                  				"usr1":ur1,
                  				"usr2":ur2,
                  				"mny":mn,
                         "date1":dt,
-                        "time1":tm
+                        "time1":tm,
+                        "pola":p
                  			}
 
                       $.ajax({
@@ -236,7 +268,7 @@ function addInput(divName){
                         }
                       });
 
-
+                    }
                      });
 
                   }
@@ -267,9 +299,10 @@ function addInput(divName){
                        var da = data[i].date;
                        var ta = data[i].time;
                        var money2 = data[i].money;
-
+                       var phatu = (data[i].path).substring(8,data[i].path.length);
+                        var pouity="Image not available"
                      //  var temp = "<tr><td>"+title+"</td><td>"+ingredients+"</td>"+"<td><img src=+"image+"></img></td>"+"</tr>"
-                     tData="<tr><td>"+da+"</td><td>"+ta+"</td><td>"+tg+"</td><td>"+money2+"</td></tr>"
+                     tData="<tr><td>"+da+"</td><td>"+ta+"</td><td>"+tg+"</td><td>"+money2+"</td><td><a href="+phatu+"><img src="+phatu+" alt="+pouity+" height=40px width=50px></a></td></tr>"
                        //var tData = "<tr><td>"+title+"</td><td>"+ingredients+"</td></tr>"
                        $("#table_give").append(tData);
                        }
