@@ -63,6 +63,9 @@ app.get('/login',function(req,res){
   res.render('login');
 });
 // For rendering the regiter page
+app.get('/stories',function(req,res){
+  res.render('stories');
+});
 
 app.get('/register',function(req,res){
   res.render('register');
@@ -71,6 +74,27 @@ app.get('/register',function(req,res){
 app.get('/dashboard',function(req,res){
   res.render('dashboard');
   myimage="uploads/no_image_available.jpg";
+});
+
+
+app.post('/fetch_chart_get',urlencodedParser,function(req,res){
+  console.log("fetch_chart_get");
+
+    Transaction.find({user1:req.body.user1}).then(function(result){
+    res.json(result);
+    console.log("Get Data Sent to user");
+    console.log(result);
+  });
+});
+
+app.post('/fetch_chart_give',urlencodedParser,function(req,res){
+  console.log("fetch_chart_give");
+
+    Transaction.find({user2:req.body.user2}).then(function(result){
+    res.json(result);
+    console.log("Get Data Sent to user");
+    console.log(result);
+  });
 });
 
 
