@@ -62,6 +62,13 @@ module.exports = function (app) {
 app.get('/login',function(req,res){
   res.render('login');
 });
+// For rendering home page
+app.get('/',function(req,res){
+  res.render('index');
+});
+app.get('/index',function(req,res){
+  res.render('index');
+});
 // For rendering the regiter page
 app.get('/stories',function(req,res){
   res.render('stories');

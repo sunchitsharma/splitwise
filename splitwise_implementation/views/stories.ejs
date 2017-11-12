@@ -54,7 +54,7 @@
     // instantiates the pie chart, passes in the data and
     // draws it.
     function drawChart() {
-    
+
       // Create the data table.
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Topping');
@@ -76,32 +76,32 @@
     }
   </script>
 </head>
+<style>body{background: #eee url(http://www.pptbackgrounds.org/uploads/statistics-stats-backgrounds-wallpapers.jpg);}</style>
 <body>
 
-
+  <nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Splitwise</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li> <a href="/index">Home</a></li>
+        <li ><a href="/stories">Chart</a></li>
+        <li><a href="/login">Logout</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a><span class="glyphicon glyphicon-user"></span>    <span class="badge"><input id="logged_in_user" style="background-color : #000000
+  "></span></a></li>
+        <!-- <li><input type="label" type="label" id="logged_in_user" name="logged_in_user" disabled></li> -->
+      </ul>
+    </div>
+  </nav>
   <div class="container">
 
-    <nav class="navbar navbar-inverse">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">Splitwise</a>
-        </div>
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="/login">Logout</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a><span class="glyphicon glyphicon-user"></span>    <span class="badge"><input id="logged_in_user" style="background-color : #000000
-"></span></a></li>
-          <!-- <li><input type="label" type="label" id="logged_in_user" name="logged_in_user" disabled></li> -->
-        </ul>
-      </div>
-    </nav>
+
+
     <br>
     <br>
-    <br>
-    <br>
-    <br>
-    <div id="chart_div" ALIGN=CENTER></div>
+    <div id="chart_div" ALIGN=LEFT></div>
 </body>
 </html>
