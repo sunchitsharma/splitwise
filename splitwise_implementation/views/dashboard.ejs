@@ -13,40 +13,40 @@
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-
 <style>
 /*body {
   background: #ABEBC6;
 }*/
+body{background: #eee url(http://www.apis-gtp.com/wp-content/uploads/2015/10/background-world-map.gif);}
 </style>
 </head>
 <body background="bg6.jpg" >
 
-
+  <nav class="navbar navbar-inverse navbar-static-top navbar-static-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Splitwise</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li ><a href="#">Home</a></li>
+        <li ><a href="/stories">Chart</a></li>
+        <li><a href="/login">Logout</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a><span class="glyphicon glyphicon-user"></span>    <span class="badge"><input id="logged_in_user" style="background-color : #000000
+  "></span></a></li>
+        <!-- <li><input type="label" type="label" id="logged_in_user" name="logged_in_user" disabled></li> -->
+      </ul>
+    </div>
+  </nav>
   <div class="container">
 
-    <nav class="navbar navbar-inverse">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">Splitwise</a>
-        </div>
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-          <li class="active"><a href="/stories">Chart</a></li>
-          <li><a href="/login">Logout</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a><span class="glyphicon glyphicon-user"></span>    <span class="badge"><input id="logged_in_user" style="background-color : #000000
-"></span></a></li>
-          <!-- <li><input type="label" type="label" id="logged_in_user" name="logged_in_user" disabled></li> -->
-        </ul>
-      </div>
-    </nav>
+
 <!-- /////////////////////////////////////////////////////// DYNAMIC TEXT FIELDS -->
 
 <form name="billimage" action="/ndashboard" method="post" enctype="multipart/form-data">
 <div class="col-md-3">
-  <input class="form-control input-sm" type="file" name="myfile" size="50" value="File chosen"/>
+  <input class="form-control-danger btn-xs" type="file" name="myfile" size="50" value="File chosen"/>
 </div>
 <div class="col-md-3">
 <input class="btn btn-primary btn-xs" type="submit" value="Upload Image"/>
